@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+fw(){ xdotool search --name "${1}" windowactivate; }
+kp(){ xdotool key "${1}"; exit; }
+
+aw="$(xdotool getactivewindow getwindowname)"
+[[ "${aw}" =~ ('DOOM 2: Hell on Earth'|'ioquake3') ]] && kp "${1}"
+
+case "${1}" in
+	1) fw '^Terminal -' || fw '^Terminal -' || exec xfce4-terminal ;;
+	2) fw 'Mozilla Firefox$' || fw 'Mozilla Firefox$' || exec firefox ;;
+	3) kp 'Alt+Right' ;;
+	4) [[ "${aw}" = *'Kate'$ ]] && kp 'Alt+Right'; kp 'Ctrl+Page_Down' ;;
+	5) [[ "${aw}" = *'Kate'$ ]] && kp 'Alt+Left'; kp 'Ctrl+Page_Up' ;;
+	6) kp 'Alt+Left' ;;
+	7) wmctrl -a '— Dolphin' || exec dolphin ;;
+	7) exec /home/blackcat/bin/0x0 &>/dev/null ;;
+	9) kp 'Ctrl+t' ;;
+	10) wmctrl -a '— Kate' || exec kate ;;
+	11) exec keepassxc ;;
+	12) kp 'Ctrl+w' ;;
+esac
+
+# this is more accurate than using regex to search the window name
+# ps hocmd "$(xdotool getactivewindow getwindowpid)"
+
+# add more keybinds for other programs
+# [[ "${aw}" =~ ^'Terminal -' ]] && keys=('Ctrl+Page_Down' 'Ctrl+Page_Up' 'Ctrl+Shift+t' 'Ctrl+Shift+w')
